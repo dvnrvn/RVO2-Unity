@@ -3,6 +3,7 @@
 // Copyright (c) AillieoTech. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
+// Modified by dvnrvn on 2025-05-02: added unmanaged constraints for Unity 6 compatibility
 
 namespace RVO
 {
@@ -10,16 +11,16 @@ namespace RVO
     using Unity.Collections;
 
     /// <summary>
-    /// Extension methods for <see cref="NativeParallelHashMap{TKey, TValue}"/>.
+    /// Extension methods for <see cref="NativeParallelMultiHashMap{TKey, TValue}"/>.
     /// </summary>
     public static class NativeParallelMultiHashMapExtensions
     {
         /// <summary>
-        /// Removes a key-value pair from the NativeParallelHashMap if it exists.
+        /// Removes a key-value pair from the NativeParallelMultiHashMap if it exists.
         /// </summary>
         /// <typeparam name="TKey">The type of the keys in the map.</typeparam>
         /// <typeparam name="TValue">The type of the values in the map.</typeparam>
-        /// <param name="hashMap">The NativeParallelHashMap.</param>
+        /// <param name="hashMap">The NativeParallelMultiHashMap.</param>
         /// <param name="key">The key to search.</param>
         /// <param name="value">The value to remove.</param>
         /// <returns>If the key-value pair was found and removed or not.</returns>
@@ -27,8 +28,8 @@ namespace RVO
             this ref NativeParallelMultiHashMap<TKey, TValue> hashMap,
             in TKey key,
             in TValue value)
-            where TKey : struct, IEquatable<TKey>
-            where TValue : struct, IEquatable<TValue>
+            where TKey : unmanaged, IEquatable<TKey>
+            where TValue : unmanaged, IEquatable<TValue>
         {
             if (hashMap.TryGetFirstValue(key, out TValue result, out NativeParallelMultiHashMapIterator<TKey> it))
             {
@@ -52,11 +53,11 @@ namespace RVO
         }
 
         /// <summary>
-        /// Removes all occurrences of a key-value pair from the NativeParallelHashMap if they exist.
+        /// Removes all occurrences of a key-value pair from the NativeParallelMultiHashMap if they exist.
         /// </summary>
         /// <typeparam name="TKey">The type of the keys in the map.</typeparam>
         /// <typeparam name="TValue">The type of the values in the map.</typeparam>
-        /// <param name="hashMap">The NativeParallelHashMap.</param>
+        /// <param name="hashMap">The NativeParallelMultiHashMap.</param>
         /// <param name="key">The key to search.</param>
         /// <param name="value">The value to remove.</param>
         /// <returns>The number of key-value pairs that were found and removed.</returns>
@@ -64,8 +65,8 @@ namespace RVO
             this ref NativeParallelMultiHashMap<TKey, TValue> hashMap,
             in TKey key,
             in TValue value)
-            where TKey : struct, IEquatable<TKey>
-            where TValue : struct, IEquatable<TValue>
+            where TKey : unmanaged, IEquatable<TKey>
+            where TValue : unmanaged, IEquatable<TValue>
         {
             var remove = 0;
 
@@ -91,11 +92,11 @@ namespace RVO
         }
 
         /// <summary>
-        /// Replaces the first occurrence of a key-value pair in the NativeParallelHashMap with a new value if it exists.
+        /// Replaces the first occurrence of a key-value pair in the NativeParallelMultiHashMap with a new value if it exists.
         /// </summary>
         /// <typeparam name="TKey">The type of the keys in the map.</typeparam>
         /// <typeparam name="TValue">The type of the values in the map.</typeparam>
-        /// <param name="hashMap">The NativeParallelHashMap.</param>
+        /// <param name="hashMap">The NativeParallelMultiHashMap.</param>
         /// <param name="key">The key to search.</param>
         /// <param name="value">The value to replace.</param>
         /// <param name="newValue">The new value.</param>
@@ -105,8 +106,8 @@ namespace RVO
             in TKey key,
             in TValue value,
             in TValue newValue)
-            where TKey : struct, IEquatable<TKey>
-            where TValue : struct, IEquatable<TValue>
+            where TKey : unmanaged, IEquatable<TKey>
+            where TValue : unmanaged, IEquatable<TValue>
         {
             if (hashMap.TryGetFirstValue(key, out TValue result, out NativeParallelMultiHashMapIterator<TKey> it))
             {
@@ -130,11 +131,11 @@ namespace RVO
         }
 
         /// <summary>
-        /// Replaces all occurrences of a key-value pair in the NativeParallelHashMap with a new value if they exist.
+        /// Replaces all occurrences of a key-value pair in the NativeParallelMultiHashMap with a new value if they exist.
         /// </summary>
         /// <typeparam name="TKey">The type of keys in the map.</typeparam>
         /// <typeparam name="TValue">The type of the values in the map.</typeparam>
-        /// <param name="hashMap">The NativeParallelHashMap.</param>
+        /// <param name="hashMap">The NativeParallelMultiHashMap.</param>
         /// <param name="key">The key to search.</param>
         /// <param name="value">The value to replace.</param>
         /// <param name="newValue">The new value.</param>
@@ -144,8 +145,8 @@ namespace RVO
             in TKey key,
             in TValue value,
             in TValue newValue)
-            where TKey : struct, IEquatable<TKey>
-            where TValue : struct, IEquatable<TValue>
+            where TKey : unmanaged, IEquatable<TKey>
+            where TValue : unmanaged, IEquatable<TValue>
         {
             var remove = 0;
 
@@ -171,18 +172,18 @@ namespace RVO
         }
 
         /// <summary>
-        /// Retrieves all values associated with a specific key in the NativeParallelHashMap.
+        /// Retrieves all values associated with a specific key in the NativeParallelMultiHashMap.
         /// </summary>
         /// <typeparam name="TKey">The type of the keys in the map.</typeparam>
         /// <typeparam name="TValue">The type of the values in the map.</typeparam>
-        /// <param name="hashMap">The NativeParallelHashMap.</param>
+        /// <param name="hashMap">The NativeParallelMultiHashMap.</param>
         /// <param name="key">The key to get the values for.</param>
         /// <param name="toFill">The NativeList to fill with the values.</param>
         public static void GetValuesForKey<TKey, TValue>(
             this ref NativeParallelMultiHashMap<TKey, TValue> hashMap,
             in TKey key,
             ref NativeList<TValue> toFill)
-            where TKey : struct, IEquatable<TKey>
+            where TKey : unmanaged, IEquatable<TKey>
             where TValue : unmanaged, IEquatable<TValue>
         {
             if (!toFill.IsCreated)
